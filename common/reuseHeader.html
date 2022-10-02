@@ -1,0 +1,68 @@
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149579272-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-149579272-1');
+    </script>
+
+    <title> Jason Duguay, PhD. </title>
+
+    <link rel = "stylesheet" href="../styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+</head>
+
+<div class="content">
+
+        <!-- <div id="navbar">
+                <a class="active" href="javascript:void(0)">Home</a>
+                <a href="javascript:void(0)">News</a>
+                <a href="javascript:void(0)">Contact</a>
+        </div> -->
+            
+    <body>
+
+        <header>
+                <div id="box"></div>
+        </header>
+            
+        <script>
+            $(function(){
+                $("#box").load('../header.html');
+                });
+        </script>
+
+        <!-- <script>
+        window.onscroll = function() {myFunction()};
+        var navbar = document.getElementById("box");
+        var sticky = navbar.offsetTop;
+        
+        function myFunction() {
+            
+            if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+            
+            } else {
+            navbar.classList.remove("sticky");
+            }
+        }
+        </script> -->
+
+
+    <p class="center"> <strong>Jason Duguay, PhD. </strong> <br> Postdoctoral fellow Concordia University <br> (visiting at Université de Sherbrooke) <br> Sherbrooke, Québec <br> Phone: 819-588-0251 <br> E-mail: duguay.jason@gmail.com </p>
+
+    <h6> Last updated: </h6>
+    <h6 id="demo">  </h6>
+    <script>
+        $(function() {
+          var x = new Date(document.lastModified);
+          document.getElementById("demo").innerHTML = x;
+        });
+        </script>
+    <hr> 
+    </div>
+    

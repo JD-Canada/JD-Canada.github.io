@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script>  
+$(function(){
+    $('#header').load('../common/reuseHeader.html');
+});
+
+</script>
+<div id="header">
+</div>
+      
+    
+<div class='content'>  
+
+    <img id="myImg" src="../Images/recirculation.png" alt="Streamlines showing recirculation zone in the lee of a bed-mounted bar" class = "center" style="width:80%;max-width:1000px">
+    <p class="caption">Figure caption: Streamlines downstream in the recirculation zone of a bed-mounted bar. The data used to make this image was obtained using stereoscopic particle image velocimetry (sPIV) in an experimental flume and was taken during this  <A HREF="tracking.html" style="text-decoration: none;" target="_blank">study</A>.</p>
+    
+    <h1> <a name="About"> A little about myself: </a> </h1>
+
+    <p class="main">
+        Since 2012 I have been answering questions occurring at the cross-roads of hydraulic and environmental engineering. A large portion of this work has been devoted to improving fish passage through engineered hydraulic structures (i.e., roadway culverts and dams). 
+    </p>
+
+    <p class="main">
+        Both computational fluid dynamics (CFD) and experimental fluid methods have played important roles in my research. In particular, the open-sourced CFD model OpenFOAM, due to its strengths and immense flexibility, has proven a valuable tool in these projects. On the experimental front, stereoscopic particle image velocimetry, which provides three component vectors over a 2-D plane, has allowed me to ‘visualize’ flow fields to levels of spatial and temporal detail that would otherwise have been impossible using other experimental flow measurement techniques.      
+    </p>   
+
+    <p class="main">
+        Aside from my work in fish passage, I also have an interest in all things related to fluid mechanics, hydrotechnical work and fluvial systems. Recently, I compared a two-phase Euler-Euler computational fluid dynamics model to a comprehensive laboratory data set with the goal of assessing the model’s ability to model bubble driven recirculatory flow in a municipal waste-water treatment plant. I was also involved in validation work of the Vectrino Profiler performed at the Université de Sherbrooke. Soon, I will be embarking on a project using OpenFOAM to model suspended sediment transport loads through a municipal sediment trap near the mouth of river located in Southern Québec. Have a look at my Research projects page for in-depth looks at some of my work.
+    </p>
+
+    <p class="main">
+        My plan is to continue pursuing projects, either in academia or in industry, with a strong emphasis on the application of computational fluid dynamics and experimental methods to address fundamental and applied questions in the field of ecohydraulics.
+    </p>
+
+
+    <h1> <a name="Skills"> Research interests and skills </a> </h1>
+
+    <p class="main">
+        Over the duration of my graduate work I had the chance to work with a number of experimental and numerical tools in my research. Notably, I was heavily involved in the design and construction of the stereoscopic particle image velocimetry (sPIV) flume in Professor Jay Lacey's laboratory at the Université de Sherbrooke. This flume has been specially designed to facilitate rapid sPIV sampling of flows of interest. Through my personal research projects and those in collaboration with industry, I have worked with a number of hydrodynamic models
+    </p>  
+
+
+    <h2> Experimental techniques and instrumentation </h2>
+
+    <ul class="list">
+ 
+        <li> Experimental methods in fluid mechanics: </li>
+            <ul>
+                <li> stereoscopic particle image velocimetry (PIV) </li>
+                <li> acoustic doppler velocimetry (ADV) </li>
+                <li> optical void fraction probes for bubbly flows </li>
+                <li> dyed UV flourescent mobile-bed particle tracking velocimetry </li>
+                <li> 3D trajectory reconstruction using dual high-speed cameras </li>
+            </ul>
+    </ul>
+
+    <h2> <a name="CFD"> Computational fluid dynamics </a> </h2>
+
+    <p class="main"> I took an interest in computational fluid dynamic (CFD) modeling in late 2012 starting with an undergraduate project modeling shear-stress distributions in a river bend using a 2D model CCHE2D. Ever since, I have been progressively improving my pratical skills and theoretical knowledge related to using CFD to investigate research and industry projects in 2D and 3D. After working for two years with Flow-3D, I began my journey using OpenFOAM to model free-surface, bubbly and sediment laden flows. The low-level nature of OpenFOAM forced me to learn a great deal about many of the technicalities of CFD which users of most commercial CFD software are generally not exposed. My experience with OpenFOAM over the past four years has piqued my interest in the complicated world of the numerical methods employed in CFD. In early 2019, I began manually translating uFVM (a Matlab finite-volume CFD code) into Python to learn every aspect of the numerical methods employed in a modern finite-volume method CFD solver such as OpenFOAM. The source code of this translation, called <a href="https://github.com/Fishified/pyFVM"><i>pyFVM</i></a> is available on github and is expected to be fully functional in mid 2020.</p>
+
+    <h3> CFD models I currently use:</h3>
+
+    <ul class="list">
+        <li> OpenFOAM (interFoam, twoPhaseEulerFoam, sedFoam, other solvers) </li>
+        <li> Telemac2D (2D hydrodynamic model with sediment, tracer, thermal and pollutant transport capabilities) </li>
+        <li> FLOW-3D (free-surface 3D hydrotechnical CFD model) </li>
+    </ul>
+
+    <h2> <a name="CFD"> Programming </a> </h2>
+
+    <p class="main"> Python is my main programming language. Early in my research career, I chose to focus my efforts on learning Python because it can do anything Matlab can <i>but</i> it is free, it can run on anything, it has strong object-orientated programming capabilities and is it supported by an ever growing community of researchers in pretty much every field from astrophysics to nanotechnology.</p> 
+
+    <p class="main"> Through the years, aside from using Python to perform routine data processing, analysis and postprocessing, I have also taken on a number of larger scale object-orientated projects with the language. During my PhD I developed <i>pyTracker3D</i> which allows users to reconstruct the 3D trajectories of moving objects by passing the centroids of the objects tracked in at least two views through a direct linear transformation algorithm. This project enabled me to gain a considerable amount of experience with computer vision, a field which persists to interest me in my ongoing research project with tracking the mobile bed layer of sediment. The source code for <a href="https://github.com/Fishified/pytracker3D"><i>pyTracker3D</i></a> is available on Github. </p> 
+        
+    <p class="main"> In 2019 I used Python to develop <a href="https://github.com/Fishified/blockMeshBuilder"><i>blockMeshBuilder</i></a> (also available on Github), which through the use of VTK bindings, allows the user to interactively construct very complicated multiblock meshes. The user first populates a Python scipt with the number of blocks needed in the <i>x</i>, <i>y</i> and <i>z</i> directions, then they can interactively remove the unnecessary blocks to arrive at the desired multiblock mesh configuration. Boundary patch groupings are also interactively selected and labelled. The blockMesh file is automatically populated with all the correct face numbers and vertices ordered accurately. I used <i>blockMeshBuilder</i> in a recent project to build a mesh containing 30+ blocks in only 9 lines of code.</p>  
+
+    <p class="main"> The translation of uFVM (a Matlab finite-volume method solver) into Python which I mentioned above, has been by far the project on which I have worked that makes the most comprehensive use of Python's object-orientated capabilities. Just to give an idea of scale, so far the <i>pyFVM</i> codebase has 8379 lines of code. At its current state the code is generalized in a way to read in any unstructured finite-volume method mesh following OpenFOAM's mesh format. The numerics are still under-developement, but pyFVM can calculate the gradient for any scalar field variable over any size of OpenFOAM mesh.</p>  
+
+    <ul class="list">
+            <li> Python object-orientated programming projects:
+                <ul>
+                    <li> <i>pyFVM</i> (translation of uFVM a finite volume CFD solver) </li>
+                    <li> <i>blockMeshBuilder</i> (build complicated blockMeshes interactively)</li>
+                    <li> <i>pyTracker3D</i> (track objects in 3D - pypt and OpenCV) </li>
+                </ul>
+            </li>
+    
+            <li> Other languages with which I am familiar:
+                    <ul>
+                        <li> Matlab, R, C++, Bash, SSH, HTML, CSS </li>
+                    </ul>
+                </li>
+            </ul>
+
+    <footer>
+            <div id="footer"></div>
+    </footer>
+
+    <script>
+            $(function(){
+                $("#footer").load('header.html');
+                });
+        </script>
+
+</div>
+
+</body>
+
+</html>

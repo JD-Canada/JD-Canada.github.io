@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script>  
+$(function(){
+    $('#header').load('../common/reuseHeader.html');
+});
+
+</script>
+<div id="header">
+</div>
+
+    <div class='content'> 
+
+    
+    <h2> <u>Posted September 24th, 2019 </u> </h2>
+    <h2> Paraview parallel processing OpenFOAM </h2>
+
+    <p class="main">
+    This post is about a wonder I've come across - parallel visualization/processing of large CFD data sets using Paraview. My postdoctoral work involving large-eddy simulations of full-scale river confluences has given me a new challenge of figuring out how to manage, manipulate and visualize the vast quantity of data these 50+ million cells meshes can produce. I’ve found the parallel capabilities of Paraview have let me speed things up considerably. If you’re not currently using them I would definitely recommend giving them a try.  
+    </p>
+	
+	<p class="main">
+	I began my postdoc with the same serial post-processing workflow I had used in my previous projects. This workflow was good for the relatively small (~ 3 million cells or less) mesh sizes I was accustomed to, which usually only involved processing a single time-step of time-averaged data saved at the end of the simulation. The typical workflow: send case to server, decompose mesh into x number of cores, launch simulation, wait, reconstruct a few fields from the last time-step, download reconstructed fields to my local machine and view them as a reconstructed case in Paraview. Though relatively effective for smaller datasets, this system rapidly broke down when I became interested in visualizing transient features of scalar mixing in my confluences using Paraview's volumetric rendering (or any computationally intensive operation in Paraview really, even just loading the data was taking for ever). 
+	</p>
+
+	<p class="main">
+	The large number of time-steps I was saving on meshes with meant I was waiting hours to reconstruct only a few fields I was interested in and then waiting many more hours to download them from the server. To make matters worse, often I would find something wrong with the simulation after viewing them on my local machine, which meant I would have to rerun the case with a fix applied, meaning even more hours and hours of waiting ...
+	</p>
+	
+	<p class="main">
+	I needed a path out of the madness. So after some digging in forums and researching at various locations online, the true power of Paraview was finally revealed to me - remote parallel processing. 
+	</p>
+
+	<p class="main">
+	The parallel workflow: you create a local instance of Paraview (at home, work, university) that connects to a remote parallelized instance of Paraview on the server whose job it is to read and parallel process the decomposed data from your OpenFOAM case. Your commands are sent from your local instance of Paraview to the server, which then uses all its cores to chew through the dataset while processing your commands. Depending on the number of cores, the processing and rendering is usually extremely fast, fractions of the time required on a single core.
+	</p>
+
+    <p class="main">
+    Instead of transferring simulated data between server and client, the remote Paraview (server) sends back only the rendered pixels needed to display the processing on the viewport of your local Paraview (client) GUI. Therefore this parallel workflow virtually eliminates large data transfers and the need to reconstruct fields which makes it a massive time saver - completing a workflow that would have taken me on the order of 3-4 days (mostly background downloading and processing) into an operation that takes less than a few minutes. Also, the parallel version is much more interactive (quickly switches between time-steps), which greatly improves the experience. 
+    </p>
+
+
+<h2> <u>Setting up a connection between a high-powered cluster and your local machine:</u> </h2>
+
+<p class="main">
+
+If you have access to a cluster, it is very likely you can already set up parallel processing quite easily. Have a look at these instructions on the <A HREF="https://docs.computecanada.ca/wiki/ParaView" style="text-decoration: none;" target="_blank"> Compute Canada website</A> for instructions on how to set up the remote instance of Paraview. More than likely, your cluster uses similar, if not identical commands to those listed there. The first time I tried these instructions on the Béluga cluster located at the École Polytechqnique de Montréal, they worked perfectly. If you run into trouble, send an email to a system administrator and odds are they will be able to help you set it up. 
+</p>
+
+
+<h2> <u>Setting up parallel processing over a local client/server network:
+</u> </h2>
+
+<p class="main">
+If you run OpenFOAM on a personal server (workstation with an appreciable number of cores) and are tired of the serial postprocessing grind, you can leverage those cores to speed your processing up. Assuming you know how to establish a ssh connection with your server the steps to successfully setup up a parallelized Paraview connection are relatively straightforward:
+</p>
+
+
+<p class="main"> <b> Step 1 </b>: On the server, download the binary files for the most recent headless version of Paraview with osmesa and mpi in the name <A HREF="https://www.paraview.org/download/" style="text-decoration: none;" target="_blank"> here.</A>  At the time of writing the name of the file I downloaded was ParaView-5.8.1-osmesa-MPI-Linux_Python3.7-64bit.tar.gz: </p> 
+
+<img id="bob" src="../Images/ParaviewParallelBlog/downloadHeadless.gif" alt="hey" class = "center" style="max-width:90%;max-height:500px">
+
+
+<p class="main"> <b> Step 2 </b>: Un-tar the downloaded file, say in your home directory, rename the folder something identifiable such as 'paraviewHeadless'. Once renamed, run the following command from your home directory: <i>./paraViewHeadless/bin/mpiexec -np XX ./paraViewHeadless/bin/pvserver</i>, where XX is the number of cores the OpenFOAM case has been decomposed into (must be equal or less than the number of cores available on the server!). This will set up the pvserver (paraview server) which will wait for you to establish a connection (done in a later step). After a few moments, some information will print out on the terminal, take note of the letters in front of :11111 (in my case jason-Precision-T7610), you will need them in step XX. </p>
+
+<img id="bob" src="../Images/ParaviewParallelBlog/serverWaiting.PNG" alt="hey" class = "center" style="max-width:80%;max-height:300px">
+
+<p class="main"> 
+<b> Step 3 </b>: In a terminal on your local computer, use ssh to establish a connection on the 11111 port by typing something similar to this on the command line:
+</p>
+
+
+<p class="main">
+<i>ssh jason@192.168.0.170 -L 11111:jason-Precision-T7610:11111</i>
+</p>
+
+<p class="main"> 
+Enter your password and then just leave the terminal open in the background.
+</p>
+
+<img id="bob" src="../Images/ParaviewParallelBlog/localConnect.gif" alt="hey" class = "center" style="max-width:90%;max-height:500px">
+
+<p class="main">
+<b> Step 4 </b>: On your local computer, open the same version of Paraview (but with a GUI, i.e. standard download). Click on the 'Connect' icon and click 'Add', type in a name (i.e. foamServer), click 'Configure'. In the next window click 'Save'. Then select the new connection and click 'Connect'.
+</p>
+
+<img id="bob" src="../Images/ParaviewParallelBlog/connectInParaview.gif" alt="hey" class = "center" style="max-width:90%;max-height:500px">
+
+<p class="main">
+After a few moments, you will see a local host connection establish in the pipeline browser. You will know have access to your server's file system remotely. Navigate to the OpenFOAM case you want to look at and make sure there is an empty namenotimportant.foam file in the root directory of the case. Click on the *.foam file and then select 'decomposedCase' in the Case type field. You should now be viewing your data in parallel using your server's resources to do the rendering!
+</p>
+
+
+    <footer>
+            <div id="footer"></div>
+    </footer>
+
+    <script>
+            $(function(){
+                $("#footer").load('header.html');
+                });
+        </script>
+
+</div>
+
+</body>
+
+</html>
